@@ -13,36 +13,65 @@
  */
 
 const validAnagram = (str1, str2) => {
-    if(str1 === str2) {
-        return true;
-    }
-
-    const frequencyCounter1 = {};
-    const frequencyCounter2 = {};
-
-    for(var i = 0; i < str1.length; ++i) {
-        const key = str1[i];
-        frequencyCounter1[key] = (frequencyCounter1[key] || 0) + 1;
-    }
-
-    for(var i = 0; i < str2.length; ++i) {
-        const key = str2[i];
-        frequencyCounter2[key] = (frequencyCounter2[key] || 0) + 1;
-    }
-
-    // console.log(frequencyCounter1, frequencyCounter2);
+    const str1Len = str1.length;
+    const str2Len = str2.length;
     
-    for(const key in frequencyCounter1) {
-        if( !(key in frequencyCounter2) ) {
+    if(str1Len !== str2Len) {
+        return false;
+    }
+
+    const charsList = {};
+
+    for(let i = 0; i < str1Len; ++i) {
+        const char = str1[i];
+        charsList[char] = charsList[char] ? ++charsList[char] : 1;
+    }
+
+    for(let i = 0; i < str2Len; ++i) {
+        const char = str2[i];
+        
+        if(!charsList[char]) {
             return false;
         }
-
-        if( frequencyCounter2[key] !== frequencyCounter1[key] ) {
-            return false;
+        else {
+            --charsList[char];
         }
     }
 
     return true;
+
+    /* This solution includes 3 loops */
+    
+    // if(str1 === str2) {
+    //     return true;
+    // }
+
+    // const frequencyCounter1 = {};
+    // const frequencyCounter2 = {};
+
+    // for(var i = 0; i < str1.length; ++i) {
+    //     const key = str1[i];
+    //     frequencyCounter1[key] = (frequencyCounter1[key] || 0) + 1;
+    // }
+
+    // for(var i = 0; i < str2.length; ++i) {
+    //     const key = str2[i];
+    //     frequencyCounter2[key] = (frequencyCounter2[key] || 0) + 1;
+    // }
+
+    // // console.log(frequencyCounter1, frequencyCounter2);
+    
+    // for(const key in frequencyCounter1) {
+    //     if( !(key in frequencyCounter2) ) {
+    //         return false;
+    //     }
+
+    //     if( frequencyCounter2[key] !== frequencyCounter1[key] ) {
+    //         return false;
+    //     }
+    // }
+
+    // return true;
 };
 
 console.log(validAnagram('', '')                          );
@@ -51,4 +80,4 @@ console.log(validAnagram('anagram', 'nagaram')            );
 console.log(validAnagram("rat","car")                     );
 console.log(validAnagram('awesome', 'awesom')             );
 console.log(validAnagram('qwerty', 'qeywrt')              );
-console.log(validAnagram('texttwisttime', 'timetwisttext')); 
+console.log(validAnagram('texttwisttime', 'timetwisttext'));  
